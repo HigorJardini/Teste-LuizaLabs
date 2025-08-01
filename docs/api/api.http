@@ -1,0 +1,71 @@
+@baseUrl = http://localhost:3004
+@authToken = {{login.response.body.token}}
+
+### Register a new user
+# @name register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "magalu",
+  "password": "securePassword123",
+  "name": "Magazine Luiza"
+}
+
+### Login with user credentials
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "magalu",
+  "password": "securePassword123"
+}
+
+### Upload multiple files with orders data
+# @name uploadMultiple
+POST {{baseUrl}}/upload
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="orders1.txt"
+Content-Type: text/plain
+
+< ./data_1.txt
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="orders2.txt"
+Content-Type: text/plain
+
+< ./data_2.txt
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get all orders
+# @name getAllOrders
+GET {{baseUrl}}/orders
+Authorization: Bearer {{authToken}}
+
+### Get order by ID
+# @name getOrderById
+GET {{baseUrl}}/orders?order_id=844
+Authorization: Bearer {{authToken}}
+
+### Get orders by date range
+# @name getOrdersByDateRange
+GET {{baseUrl}}/orders?start_date=2021-01-01&end_date=2021-12-31
+Authorization: Bearer {{authToken}}
+
+### Get orders by user
+# @name getOrdersByUser
+GET {{baseUrl}}/orders?user_id=90
+Authorization: Bearer {{authToken}}
+
+### Get orders with pagination
+# @name getOrdersPaginated
+GET {{baseUrl}}/orders?page=1&limit=10
+Authorization: Bearer {{authToken}}
+
+### Get orders with combined filters
+# @name getOrdersWithFilters
+GET {{baseUrl}}/orders?start_date=2021-01-01&end_date=2021-12-31&user_id=70&page=1&limit=5
+Authorization: Bearer {{authToken}}
